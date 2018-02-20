@@ -4,17 +4,43 @@
 
 #include "matrix.h"
 
+/*
 int main() {
 
   struct matrix * m=new_matrix(4,4);
-  printf("testing print_matrix\n");
-  print_matrix(m);
+  struct matrix * n=new_matrix(4,3);
+  m->lastcol=4;
+  n->lastcol=3;
+  
 
   printf("\ntesting ident(m)\n");
   ident(m);
   print_matrix(m);
+
+  n->m[0][0]=4;
+  n->m[0][1]=37;
+  n->m[3][2]=9;
+  n->m[2][2]=10;
+  printf("\nmatrix with values\n");
+  print_matrix(n);
+
+  printf("\ntesting matrix_mult with identity matrix\n");
+  matrix_mult(m,n);
+  print_matrix(n);
+
+  printf("\ntesting matrix_mult with not identity matrix\n");
+  m->m[0][2]=14;
+  m->m[1][0]=8;
+  m->m[2][2]=17;
+  print_matrix(m);
+  printf("\nmultipled by\n");
+  print_matrix(n);
+  matrix_mult(m,n);
+  printf("\nresult\n");
+  print_matrix(n);
+  
   return 0;
-}
+  }*/
 
 /*-------------- void print_matrix() --------------
 Inputs:  struct matrix *m 
@@ -27,8 +53,10 @@ void print_matrix(struct matrix *m) {
   int c=0;
   while (r<m->rows) {
 
-    while (c<m->cols) {
-      printf("%.2lf ",(m->m)[r][c]);
+    //printf("%06.2lf|",(m->m)[r][c]);
+    //c++;
+    while (c<m->lastcol) {
+      printf("\t%06.2lf|",(m->m)[r][c]);
 
       c++;
     }
@@ -61,6 +89,7 @@ void ident(struct matrix *m) {
     r++;
 
   }
+  m->lastcol=m->cols;
 }
 
 
@@ -78,21 +107,26 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
   int temp=0;
 
   struct matrix * storage=new_matrix(b->rows,b->cols);
+  
   while (row_a<a->rows) {
 
     while (col_b<b->cols) {
       while (row_b<b->rows) {
-temp+=
+	temp+=a->m[row_a][row_b]*b->m[row_b][col_b];
 	row_b++;
       }
+      //set stuff in storage
+      storage->m[row_a][col_b]=temp;
       col_b++;
       row_b=0;
+      temp=0;
     }
     col_b=0;
-    temp=0;
+    
     row_a++;
   }
-  free(storage);
+  copy_matrix(storage,b);
+  free_matrix(storage);
   
 }
 
