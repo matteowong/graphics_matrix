@@ -56,7 +56,7 @@ int main() {
 
   edges = new_matrix(4, 4);
 
-  printf("testing add_edge, and implicitly add_point and grow_matrix\n");
+  printf("testing add_edge, and implicitly add_point\n");
   add_edge(edges,0,350,0,50,400,0);
   add_edge(edges,50,400,0,100,350,0);
   add_edge(edges,0,350,0,100,350,0);
@@ -92,7 +92,7 @@ int main() {
   add_edge(edges,500,300,0,310,40,0);
 
   
-  
+  printf("\ndrawing lines\n");
   draw_lines(edges, s, c);
   save_ppm(s,"image.ppm");
   display(s);
